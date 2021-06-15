@@ -8,7 +8,8 @@ import static com.example.Spring.Security.security.ApplicationUserPermission.*;
 
 public enum ApplicationUserRole {
     CLIENT(Sets.newHashSet()),
-    ADMIN(Sets.newHashSet(CAR_READ, CAR_WRITE, CLIENT_READ, CLIENT_WRITE));
+    ADMIN(Sets.newHashSet(CAR_READ, CAR_WRITE, CLIENT_READ, CLIENT_WRITE)),
+    ADMINTRAINEE(Sets.newHashSet(CAR_READ, CLIENT_READ));
 
     private final Set <ApplicationUserPermission> permissions;
 
