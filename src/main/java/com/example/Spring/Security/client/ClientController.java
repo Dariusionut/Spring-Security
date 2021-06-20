@@ -16,7 +16,6 @@ public class ClientController {
             new Client(1, "Darius"),
             new Client(2, "Daniel"),
             new Client(3, "Alex")
-
     );
 
     @GetMapping("{clientId}")

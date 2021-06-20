@@ -17,4 +17,14 @@ public class Client {
     public String getClientName() {
         return clientName;
     }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "clientId=" + clientId +
+                ", clientName='" + clientName + '\'' +
+                '}';
+    }
+
+
 }
