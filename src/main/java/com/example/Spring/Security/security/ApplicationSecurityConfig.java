@@ -35,9 +35,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").hasRole(CLIENT.name())
-                .antMatchers(HttpMethod.DELETE,"/management/api/**").hasAuthority(CLIENT_WRITE.name())
-                .antMatchers(HttpMethod.POST,"/management/api/**").hasAuthority(CLIENT_WRITE.name())
-                .antMatchers(HttpMethod.PUT,"/management/api/**").hasAuthority(CLIENT_WRITE.name())
+                .antMatchers(HttpMethod.DELETE,"/management/api/**").hasAuthority(CLIENT_WRITE.getPermission())
+                .antMatchers(HttpMethod.POST,"/management/api/**").hasAuthority(CLIENT_WRITE.getPermission())
+                .antMatchers(HttpMethod.PUT,"/management/api/**").hasAuthority(CLIENT_WRITE.getPermission())
                 .antMatchers(HttpMethod.GET, "/management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
                 .anyRequest()
                 .authenticated()
@@ -51,17 +51,20 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails dariusUser = User.builder()
                 .username("Darius")
                 .password(passwordEncoder.encode("password"))
-                .roles(CLIENT.name()) // ROLE_CLIENT
+//                .roles(CLIENT.name()) // ROLE_CLIENT
+                .authorities(CLIENT.getGrantedAuthorities())
                 .build();
         UserDetails lexUser = User.builder()
                 .username("Lex")
                 .password(passwordEncoder.encode("password123"))
-                .roles(ADMIN.name()) // ROLE_ADMIN
+//                .roles(ADMIN.name()) // ROLE_ADMIN
+                .authorities(ADMIN.getGrantedAuthorities())
                 .build();
         UserDetails mariaUser = User.builder()
                 .username("Maria")
                 .password(passwordEncoder.encode("password123"))
-                .roles(ADMINTRAINEE.name()) // ROLE_ADMINTRAINEE
+//                .roles(ADMINTRAINEE.name()) // ROLE_ADMINTRAINEE
+                .authorities(ADMINTRAINEE.getGrantedAuthorities())
                 .build();
         return new InMemoryUserDetailsManager(
                 dariusUser,
