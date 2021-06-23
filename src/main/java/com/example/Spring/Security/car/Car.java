@@ -17,4 +17,12 @@ public class Car {
     public String getCarName() {
         return carName;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "carId=" + carId +
+                ", carName='" + carName + '\'' +
+                '}';
+    }
 }
