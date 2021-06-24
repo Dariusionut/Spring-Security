@@ -1,5 +1,6 @@
 package com.example.Spring.Security.car;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,15 @@ public class CarController {
             new Car(3, "Audi")
     );
 
-    @GetMapping("/{carId}")
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_VISITOR')")
+    public static List<Car> getAllCars() {
+        System.out.println("getAllCars");
+        return CARS;
+    }
+
+    @GetMapping("{carId}")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_VISITOR')")
     public Car getCar(@PathVariable("carId") Integer carId){
         return CARS.stream().filter(car -> carId.equals(car.getCarId()))
                 .findFirst()

@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static com.example.Spring.Security.security.ApplicationUserRole.*;
 
@@ -32,9 +33,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+//                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//                .and()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/api/**").hasRole(CLIENT.name())
+//                .antMatchers("/api/**").hasRole(CLIENT.name())
 //                .antMatchers(HttpMethod.DELETE,"/management/api/**").hasAuthority(CLIENT_WRITE.getPermission())
 //                .antMatchers(HttpMethod.POST,"/management/api/**").hasAuthority(CLIENT_WRITE.getPermission())
 //                .antMatchers(HttpMethod.PUT,"/management/api/**").hasAuthority(CLIENT_WRITE.getPermission())
@@ -54,6 +57,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .roles(CLIENT.name()) // ROLE_CLIENT
                 .authorities(CLIENT.getGrantedAuthorities())
                 .build();
+        UserDetails danielUser = User.builder()
+                .username("Daniel")
+                .password(passwordEncoder.encode("password"))
+                .authorities(VISITOR.getGrantedAuthorities())
+                .build();
         UserDetails lexUser = User.builder()
                 .username("Lex")
                 .password(passwordEncoder.encode("password123"))
@@ -68,6 +76,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .build();
         return new InMemoryUserDetailsManager(
                 dariusUser,
+                danielUser,
                 lexUser,
                 mariaUser
         );

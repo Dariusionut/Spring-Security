@@ -1,5 +1,6 @@
 package com.example.Spring.Security.client;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class ClientController {
     );
 
     @GetMapping("{clientId}")
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
     public Client getClient(@PathVariable("clientId") Integer clientId) {
         return CLIENTS.stream().filter(client -> clientId.equals(client.getClientId()))
                 .findFirst()

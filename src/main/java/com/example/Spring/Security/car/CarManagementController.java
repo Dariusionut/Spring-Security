@@ -1,6 +1,5 @@
 package com.example.Spring.Security.car;
 
-import com.example.Spring.Security.client.Client;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ public class CarManagementController {
     );
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_ADMINTRAINEE', 'ROLE_VISITOR')")
     public static List<Car> getAllCars() {
         System.out.println("getAllCars");
         return CARS;
@@ -26,7 +25,7 @@ public class CarManagementController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('car:write')")
-    public void registerNewCar(@RequestBody Car car){
+    public void registerNewCar(@RequestBody Car car) {
         System.out.println("registerNewCar");
         System.out.println(car);
     }
@@ -36,7 +35,7 @@ public class CarManagementController {
     public void deleteCar(@PathVariable("carId") Integer carId) {
         System.out.println("deleteCar");
         System.out.println(carId);
-}
+    }
 
     @PutMapping(path = "{carId}")
     @PreAuthorize("hasAuthority('car:write')")
